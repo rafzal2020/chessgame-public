@@ -9,7 +9,9 @@ public class King extends Piece {
         super(x, y, pieceName);
     }
 
+    
     public boolean isValid(ReturnPiece.PieceFile startingFile, int startingRank, ReturnPiece.PieceFile movedFile, int movedRank, Player color, boolean forIllegalCheck, ReturnPlay board) {
+
         PieceFile file = startingFile;
         int rank = startingRank;
         int dirRank = direction(1, movedFile, movedRank);
@@ -48,14 +50,11 @@ public class King extends Piece {
         Rook rookPiece = null;
         boolean isRightRook = false;
         if (movedFile == PieceFile.g) {
-            System.out.println("line 52");
             isRightRook = true;
             if (pieceAhead(getNext(movedFile), startingRank, board)) {
-                System.out.println("line 55");
                 if (identifyPieceType(getNext(movedFile), startingRank, board).getPieceName() == PieceType.WR || identifyPieceType(getNext(movedFile), startingRank, board).getPieceName() == PieceType.BR) {
-                    System.out.println("line 57");
+
                     rookPiece = new Rook(getNext(movedFile), startingRank, identifyPieceType(getNext(movedFile), startingRank, board).getPieceName());
-                    System.out.println(rookPiece.getPieceName() + ": " + rookPiece.getFile() +""+rookPiece.getRank());
                 }
             }
         }
@@ -68,10 +67,7 @@ public class King extends Piece {
             }
         }
         if (rookPiece != null) {
-            System.out.println("line 71");
-            System.out.println(kingPiece.getPieceName() + ": " + kingPiece.getFile() +""+kingPiece.getRank());
             if (validCastling(kingPiece, rookPiece, startingFile, movedFile, isRightRook, board, color)) {
-                System.out.println("line 73");
                 validCastlingMove = true;
                 if (isRightRook) globalIsRightRook = true;
                 else globalIsRightRook = false;
@@ -82,15 +78,11 @@ public class King extends Piece {
 
         // moving horizontal 
         if (!file.equals(movedFile) && rank == movedRank) {
-            System.out.println("line 85");
             boolean validHorizontal = false;
             
             // determine legality of move
             if (dirFile == 1) {
-                System.out.println("line 90");
                 if (getNext(file).equals(movedFile)) { 
-                    System.out.println(file + " : " + getNext(file) + " : " + movedFile);
-                    System.out.println("line 92");
                     validHorizontal = true; 
                 }
             }
@@ -98,10 +90,8 @@ public class King extends Piece {
                 if (getNext(movedFile) == file) { validHorizontal = true; }
             }
             // case for capture
-            System.out.println("ValidHorizontal = " + validHorizontal);
             if (validHorizontal) {
                 if (pieceAhead(movedFile, rank, board)) {
-                    System.out.println("line104");
                     Piece myPiece = identifyPieceType(file, rank, board);
                     Piece capturedPiece = identifyPieceType(movedFile, movedRank, board);
                     
@@ -161,15 +151,17 @@ public class King extends Piece {
     }
     public boolean validCastling(Piece kingPiece, Piece rookPiece, PieceFile startingFile, PieceFile movedFile, boolean isRightRook, ReturnPlay board, Player color) {
         // first case: neither the king nor the rook has moved
-        
-        System.out.println("line 149");
         if (rookPiece.isFirstMove(PieceType.WR, color) && kingPiece.isFirstMove(PieceType.WK, color)) {
 
             // second case: there are no pieces between the king and the rook
             if (isRightRook) {
                 if (pieceAhead(getNext(kingPiece.getFile()), kingPiece.getRank(), board)
                     || pieceAhead(getNext(getNext((kingPiece.getFile()))), kingPiece.getRank(), board)) {
-                        System.out.println("line 151");
+                        if (color == Player.white) {
+                            wKingFirstMove = true; rightWRookFirstMove = true; 
+                        } else {
+                            bKingFirstMove = true; rightBRookFirstMove = true;
+                        }
                         return false;
                     }
             }
@@ -177,7 +169,11 @@ public class King extends Piece {
                 if (pieceAhead(getPrev(kingPiece.getFile()), kingPiece.getRank(), board)
                     || pieceAhead(getPrev(getPrev((kingPiece.getFile()))), kingPiece.getRank(), board)
                     || pieceAhead(getNext(rookPiece.getFile()), kingPiece.getRank(), board)) {
-                        System.out.println("line 159");
+                        if (color == Player.white) {
+                            wKingFirstMove = true; leftWRookFirstMove = true; 
+                        } else {
+                            bKingFirstMove = true; leftBRookFirstMove = true;
+                        }
                         return false;
                     }
             }
@@ -185,13 +181,21 @@ public class King extends Piece {
             // third case: the king is not in check
             if (isRightRook) {
                 if (kingPiece.isIllegalCheck(color, startingFile, kingPiece.getRank(), kingPiece, null)) {
-                    System.out.println("line 167");
+                    if (color == Player.white) {
+                        wKingFirstMove = true; rightWRookFirstMove = true; 
+                    } else {
+                        bKingFirstMove = true; rightBRookFirstMove = true;
+                    }
                     return false;
                 }
             }
             else {
                 if (kingPiece.isIllegalCheck(color, startingFile, kingPiece.getRank(), kingPiece, null)) {
-                    System.out.println("line 173");
+                    if (color == Player.white) {
+                        wKingFirstMove = true; leftWRookFirstMove = true; 
+                    } else {
+                        bKingFirstMove = true; leftBRookFirstMove = true;
+                    }
                     return false;
                 }
             }
@@ -201,16 +205,22 @@ public class King extends Piece {
                 
                 if (kingPiece.isIllegalCheck(color, PieceFile.f, kingPiece.getRank(), kingPiece, null)
                     /*|| kingPiece.isIllegalCheck(color, movedFile, kingPiece.getRank(), kingPiece, cloneBoard(board))*/) {
-                        System.out.println("line 194: " + kingPiece.getFile() +""+kingPiece.getRank());
-                        System.out.println(getNext(startingFile) + "" + kingPiece.getRank() + " and " + movedFile + "" + kingPiece.getRank());
-                        System.out.println("line 182");
+                        if (color == Player.white) {
+                            wKingFirstMove = true; rightWRookFirstMove = true; 
+                        } else {
+                            bKingFirstMove = true; rightBRookFirstMove = true;
+                        }
                         return false;
                 }
             }
             else {
                 if (kingPiece.isIllegalCheck(color, getPrev(startingFile), kingPiece.getRank(), kingPiece, null)
                 /*|| kingPiece.isIllegalCheck(color, getPrev(getPrev((kingPiece.getFile()))), kingPiece.getRank(), kingPiece, board)*/) {
-                    System.out.println("line 189");
+                    if (color == Player.white) {
+                        wKingFirstMove = true; leftWRookFirstMove = true; 
+                    } else {
+                        bKingFirstMove = true; leftBRookFirstMove = true;
+                    }
                     return false;
             }
             

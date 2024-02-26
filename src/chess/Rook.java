@@ -3,7 +3,6 @@ package chess;
 import java.util.EnumSet;
 
 import chess.ReturnPiece.PieceFile;
-import chess.ReturnPiece.PieceType;
 
 public class Rook extends Piece {
     public Rook (ReturnPiece.PieceFile x, int y, ReturnPiece.PieceType pieceName) {
@@ -14,9 +13,7 @@ public class Rook extends Piece {
     public boolean isValid(ReturnPiece.PieceFile startingFile, int startingRank, ReturnPiece.PieceFile movedFile, int movedRank, Player color, boolean forIllegalCheck, ReturnPlay board) {
         PieceFile file = startingFile;
         int rank = startingRank;
-        //System.out.println("testing123");
         // moving straight forward
-        //isFirstMove(PieceType.WR,color);
         if (file.equals(movedFile)) {
             // if there is a piece to capture
             int dir = direction(1, movedFile, movedRank);
@@ -152,112 +149,7 @@ public class Rook extends Piece {
         }
         return false;
 
-
-
     }
-
-
-
 
 }
 
-    //     PieceFile file = getFile();
-    //     int rank = getRank();
-
-    //     // Check for horizontal or vertical movement only.
-    //     if (file == movedFile || rank == movedRank) {
-    //         int spacesMoved = file == movedFile ? Math.abs(rank - movedRank) : Math.abs(file.ordinal() - movedFile.ordinal());
-
-    //         // Check if there's any piece in the path of movement.
-    //         if (color == Player.white) {
-    //             for (int i = 1; i <= spacesMoved; i++) {
-    //                 int nextRank = rank + (file == movedFile ? i : 0);
-    //                 PieceFile nextFile = file != movedFile ? PieceFile.values()[file.ordinal() + i] : file;
-    //                 if (identifyPieceType(nextFile, nextRank) != null) {
-    //                     return false; // Path is not clear.
-    //                 }
-    //             }
-    //         } else if (color == Player.black) {
-    //             for (int i = 1; i <= spacesMoved; i++) {
-    //                 int nextRank = rank - (file == movedFile ? i : 0);
-    //                 PieceFile nextFile = file != movedFile ? PieceFile.values()[file.ordinal() - i] : file;
-    //                 if (identifyPieceType(nextFile, nextRank) != null) {
-    //                     return false; // Path is not clear.
-    //                 }
-    //             }
-    //         }
-
-    //         // Assuming direct movement to an empty space or capturing an opponent's piece is valid.
-    //         return true;
-    //     }
-
-    //     // If it's neither vertical nor horizontal movement, it's invalid for a rook.
-    //     return false;
-    // }
-
-    
-//     @Override
-//     public boolean isValid(PieceFile movedFile, int movedRank) {
-//     PieceFile file = this.getFile();
-//     int rank = this.getRank();
-    
-//     // Check for horizontal or vertical movement
-//     if (file == movedFile || rank == movedRank) {
-//         if (!isPathClear(file, rank, movedFile, movedRank)) {
-//             // Path is not clear, move is not valid
-//             return false;
-//         }
-        
-//         // Check for capturing
-//         if (isOpponentPieceAt(movedFile, movedRank)) {
-//             // Identify the piece object at the destination
-//             Piece rook = identifyPieceType(movedFile, movedRank);
-//             // Assuming identifyPieceType correctly identifies and returns the piece object, including its color
-            
-//             // Create a ReturnPiece object for the piece to be captured
-//             ReturnPiece pieceToCapture = new ReturnPiece();
-//             pieceToCapture.setPieceFile(rook.getFile());
-//             pieceToCapture.setPieceRank(rook.getRank());
-//             pieceToCapture.setPieceType(rook.getPieceName());
-            
-//             // Remove the captured piece from the board
-//             startingBoard.piecesOnBoard.remove(pieceToCapture);
-            
-//             // Capture logic completed
-//         }
-        
-//         return true;
-//     }
-    
-//     return false; // Not a valid rook move
-// }
-
-// private boolean isPathClear(PieceFile startFile, int startRank, PieceFile endFile, int endRank) {
-//     int startFileIndex = startFile.ordinal();
-//     int endFileIndex = endFile.ordinal();
-//     int fileDirection = Integer.compare(endFileIndex, startFileIndex);
-//     int rankDirection = Integer.compare(endRank, startRank);
-
-//     int currentFileIndex = startFileIndex + fileDirection;
-//     int currentRank = startRank + rankDirection;
-
-//     while (currentFileIndex != endFileIndex || currentRank != endRank) {
-//         Piece pieceAtCurrentLocation = Chess.getPiece(PieceFile.values()[currentFileIndex], currentRank);
-//         if (pieceAtCurrentLocation != null) {
-//             return false; // Found a piece in the path
-//         }
-//         currentFileIndex += (currentFileIndex != endFileIndex) ? fileDirection : 0;
-//         currentRank += (currentRank != endRank) ? rankDirection : 0;
-//     }
-
-//     return true; //
-// }
-
-// private boolean isOpponentPieceAt(PieceFile file, int rank) {
-//     Piece pieceAtLocation = Chess.getPiece(file, rank);
-//     if (pieceAtLocation != null && pieceAtLocation.isWhite() != this.isWhite()) {
-//         return true; // There is an opponent's piece at the given location
-//     }
-//     return false; // No opponent piece at the location
-// }
-//}

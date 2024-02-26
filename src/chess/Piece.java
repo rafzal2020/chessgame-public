@@ -11,6 +11,7 @@ public abstract class Piece extends Chess {
     protected int y, newY;
     ReturnPiece.PieceType pieceName;
     public static ReturnPlay demoBoard;
+    public static boolean wKingFirstMoveDoubleCheck = true;
 
     // keep track of the pawns that have moved two spaces for en passant
     public static ArrayList<Pawn> movedPawns = new ArrayList<>();
@@ -106,24 +107,6 @@ public abstract class Piece extends Chess {
                         }
                     }
                 }
-                /*if (file == ReturnPiece.PieceFile.a && rank == 1) { // left rook
-                    if (leftWRookFirstMove) {
-                        leftWRookFirstMove = false;
-                        return true;
-                    }
-                }
-                else if (file == ReturnPiece.PieceFile.h && rank == 1) { // right rook
-                    if (rightWRookFirstMove) {
-                        rightWRookFirstMove = false;
-                        return true;
-                    }
-                }
-                else if (file == ReturnPiece.PieceFile.e && rank == 1) {    // king
-                    if (wKingFirstMove) {
-                        wKingFirstMove = false;
-                        return true;
-                    }
-                }*/
             }
         }
         else if (color == Player.black) {

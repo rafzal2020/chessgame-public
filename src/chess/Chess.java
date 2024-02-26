@@ -1,5 +1,4 @@
-// RAYAAN AFZAL
-// JUNAID GHANI
+// RAYAAN AFZAL, JUNAID
 package chess;
 
 import java.util.ArrayList;
@@ -103,7 +102,13 @@ public class Chess{
 
 		if (p != null && p.isValid(movedPiece.pieceFile, firstRank, sF, secondRank, playColor, false, startingBoard)) {
 			if (!p.isIllegalCheck(playColor, sF, secondRank, p.findKing(playColor, startingBoard), null)) {
+				if (p.getPieceName() == PieceType.WK || p.getPieceName() == PieceType.BK) {
+					p.isFirstMove(PieceType.WK, playColor);
+				} else if (p.getPieceName() == PieceType.WR || p.getPieceName() == PieceType.BR) {
+					p.isFirstMove(PieceType.WR, playColor);
+				}
 				p.makeMove(movedPiece.pieceFile, firstRank, sF, secondRank, startingBoard);
+				
 
 				if (validCastlingMove) {
 					Rook rook = null;
@@ -358,8 +363,19 @@ public class Chess{
 	 */
 	public static void start() {
 		/* FILL IN THIS METHOD */
+		forCheckmateCheck = false;
+		bKingFirstMove = true;
+    	wKingFirstMove = true;
+    	rightBRookFirstMove = true;
+    	leftBRookFirstMove = true;
+    	rightWRookFirstMove = true;
+    	leftWRookFirstMove = true;
+		validCastlingMove = false;
+		globalIsRightRook = false;
+
+
 		playColor = Player.white;
-		System.out.println("| White's turn |\n");
+		System.out.println("\n| White's turn |\n");
 		startingBoard = new ReturnPlay();
 		startingBoard.piecesOnBoard = new ArrayList<>();
 
@@ -392,7 +408,7 @@ public class Chess{
 		addPieceToBoard(ReturnPiece.PieceType.BN, ReturnPiece.PieceFile.g, 8);
 		addPieceToBoard(ReturnPiece.PieceType.BR, ReturnPiece.PieceFile.h, 8);
 
-		PlayChess.printBoard(startingBoard.piecesOnBoard);
+		//PlayChess.printBoard(startingBoard.piecesOnBoard);
 
 	}
 

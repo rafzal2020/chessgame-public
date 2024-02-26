@@ -1,7 +1,5 @@
 package chess;
 
-import java.util.ArrayList;
-
 import chess.ReturnPiece.PieceFile;
 import chess.ReturnPiece.PieceType;
 
@@ -16,7 +14,6 @@ public class Pawn extends Piece {
     public boolean isValid(ReturnPiece.PieceFile startingFile, int startingRank, ReturnPiece.PieceFile movedFile, int movedRank, Player color, boolean forIllegalCheck, ReturnPlay board) {
         PieceFile file = startingFile;
         int rank = startingRank;
-        //Pawn pawn = new Pawn(startingFile,startingRank,getPieceName());
 
         if (file.equals(movedFile)) {        // if the piece is moving straight (no capture)
             if (isFirstMove(PieceType.WP, color) == true) {          // first move means it can move up 2 spaces
