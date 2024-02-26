@@ -1,4 +1,4 @@
-// RAYAAN AFZAL, JUNAID
+// RAYAAN AFZAL, JUNAID GHANI
 package chess;
 
 import java.util.ArrayList;
@@ -408,7 +408,7 @@ public class Chess{
 		addPieceToBoard(ReturnPiece.PieceType.BN, ReturnPiece.PieceFile.g, 8);
 		addPieceToBoard(ReturnPiece.PieceType.BR, ReturnPiece.PieceFile.h, 8);
 
-		PlayChess.printBoard(startingBoard.piecesOnBoard);
+		//PlayChess.printBoard(startingBoard.piecesOnBoard);
 
 	}
 

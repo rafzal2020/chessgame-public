@@ -27,7 +27,7 @@ public class Pawn extends Piece {
                         else { 
                             Pawn newPawn = new Pawn(startingFile, startingRank+2, getPieceName());
                             movedPawns.add(newPawn);
-                            System.out.println(movedPawns.toString());
+                            //System.out.println(movedPawns.toString());
                             return true; 
                         }
                     }
@@ -45,7 +45,7 @@ public class Pawn extends Piece {
                         else {
                             Pawn newPawn = new Pawn(startingFile, startingRank-2, getPieceName());
                             movedPawns.add(newPawn);
-                            System.out.println(movedPawns.toString());
+                            //System.out.println(movedPawns.toString());
                             return true; 
                         }
                     }
@@ -89,7 +89,7 @@ public class Pawn extends Piece {
                             return isSameColor(myPiece, capturedPiece, forIllegalCheck, board);
                         }
                         else if (pieceAhead(capturingPieceFile, rank, board)) { // check for en passant capture
-                            System.out.println("testertester");
+                            //System.out.println("testertester");
                             Piece myPiece = identifyPieceType(file, rank, board);
                             Piece capturedPiece = identifyPieceType(movedFile, rank, board);
 

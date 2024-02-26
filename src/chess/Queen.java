@@ -254,7 +254,7 @@ public class Queen extends Piece {
                     for (PieceFile f : EnumSet.range(getNext(movedFile), getPrev(file))) {
                         if (pieceAhead(f, rankIndex, board)) {
                             noPieceFound = false;
-                            System.out.println("test");
+                            //System.out.println("test");
                             return false;
                         }
                         rankIndex++;
@@ -361,7 +361,7 @@ public class Queen extends Piece {
                 }
             }
         }
-        System.out.println("test5");
+        //System.out.println("test5");
         return false;
     }
 }

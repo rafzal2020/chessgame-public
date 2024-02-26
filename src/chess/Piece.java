@@ -164,12 +164,12 @@ public abstract class Piece extends Chess {
     public boolean validEnPassant(Piece capturingPiece, Piece capturedPiece) {
         PieceFile capturedPieceFile = capturedPiece.getFile();
         int capturedPieceRank = capturedPiece.getRank();
-        System.out.println(movedPawns.size() + "\n" + capturedPiece.getPieceName() + ": " + capturedPieceFile +""+capturedPieceRank);
+        //System.out.println(movedPawns.size() + "\n" + capturedPiece.getPieceName() + ": " + capturedPieceFile +""+capturedPieceRank);
         for (int i = 0; i < movedPawns.size(); i++) {
             Pawn p = movedPawns.get(i);
-            System.out.println(p.getPieceName() + ": " + p.getFile() + "" + p.getRank());
+            //System.out.println(p.getPieceName() + ": " + p.getFile() + "" + p.getRank());
             if (p.getPieceName() == capturedPiece.getPieceName() && p.getFile() == capturedPieceFile && p.getRank() == capturedPieceRank) {
-                System.out.println(p.getPieceName() + " : test2.");
+                //System.out.println(p.getPieceName() + " : test2.");
                 return true;
             }
         }
@@ -252,21 +252,21 @@ public abstract class Piece extends Chess {
             kingRank = movedRank;
         }
         
-        if (board == null) {
+        /*if (board == null) {
             board = cloneBoard(startingBoard);
-        }
-        ReturnPlay tempBoard = cloneBoard(board);
+        }*/
+        ReturnPlay tempBoard = cloneBoard(startingBoard);
         
-        makeMove(startingFile, startingRank, movedFile, movedRank, board); // temporarily move the piece
+        makeMove(startingFile, startingRank, movedFile, movedRank, tempBoard); // temporarily move the piece
         
         // now we need to see if theres any potential openings for the king to be attacked,
         // if there are, return true and return an illegal_move message in the class this is being called in.
         for (PieceFile f : PieceFile.values()) {
             for (int i = 1; i <= 8; i++) {
-                board = cloneBoard(tempBoard);
-                Piece p = identifyPieceType(f, i, board);
+                tempBoard = cloneBoard(startingBoard);
+                Piece p = identifyPieceType(f, i, tempBoard);
                 if (p != null && p.getColor(p.getPieceName()) != king.getColor(king.getPieceName())) {
-                    if (p.isValid(p.getFile(), p.getRank(), kingFile, kingRank, switchTurn(currentPlayer), true, board)) {
+                    if (p.isValid(p.getFile(), p.getRank(), kingFile, kingRank, switchTurn(currentPlayer), false, tempBoard)) {
                         checked = true;
                         break;
                     }
@@ -277,9 +277,9 @@ public abstract class Piece extends Chess {
             }
             if(checked) break;
         }
-        board = cloneBoard(tempBoard);
+        tempBoard = cloneBoard(startingBoard);
         
-        makeMove(movedFile, movedRank, startingFile, startingRank, board); // move the piece back in original position
+        makeMove(movedFile, movedRank, startingFile, startingRank, tempBoard); // move the piece back in original position
         if (checked) {
             return true;
         }
@@ -321,22 +321,22 @@ public abstract class Piece extends Chess {
   
 
     public boolean isCheckmate(Player currentPlayer, ReturnPlay board) {
-        board = cloneBoard(startingBoard);
+        ReturnPlay board1 = cloneBoard(startingBoard);
         for (PieceFile f : PieceFile.values()) {
             for (int i = 1; i <= 8; i++) {
                 
-                Piece p = identifyPieceType(f, i, board);
+                Piece p = identifyPieceType(f, i, board1);
                 
                 for (PieceFile fMove : PieceFile.values()) {
                     for (int j = 1; j <= 8; j++) {
-                        board = cloneBoard(startingBoard);
+                        board1 = cloneBoard(startingBoard);
                         if (p != null) {
                             char c = p.getColor(p.getPieceName());
                             if (Character.toLowerCase(c) == currentPlayer.name().charAt(0)) {
-                                if (p.isValid(p.getFile(), p.getRank(), fMove, j, currentPlayer, false, board)) {
-                                    System.out.println(p.getPieceName() + ": " + f +""+i+ " -> " + fMove+""+j + " is valid.");
-                                    if (!isIllegalCheck(currentPlayer, fMove, j, findKing(currentPlayer, board), board)) {
-                                        board = cloneBoard(startingBoard);
+                                if (p.isValid(p.getFile(), p.getRank(), fMove, j, currentPlayer, false, board1)) {
+                                    //System.out.println(p.getPieceName() + ": " + f +""+i+ " -> " + fMove+""+j + " is valid.");
+                                    if (!isIllegalCheck(currentPlayer, fMove, j, findKing(currentPlayer, board1), board1)) {
+                                        board1 = cloneBoard(startingBoard);
                                         return false;
                                     }
                                 }
@@ -346,7 +346,7 @@ public abstract class Piece extends Chess {
                 }
             }
         }
-        board.piecesOnBoard = startingBoard.piecesOnBoard;
+        board1.piecesOnBoard = startingBoard.piecesOnBoard;
         return true;
     }
 
